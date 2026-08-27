@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Finger Scanner</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tone.js for audio generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.js"></script>
+    <!-- Google Fonts for a futuristic look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the futuristic animation and text glow */
+        body {
+            font-family: 'Audiowide', sans-serif;
+            background-color: #0a0a1a;
+            /* Dark, premium background */
+        }
+
+        /* Container for the loading animation elements */
+        .futuristic-animation {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Central glowing core */
+        .core {
+            width: 50px;
+            height: 50px;
+            background-color: #00ffff;
+            /* Bright cyan */
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff, inset 0 0 10px #fff;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* Animated rings orbiting the core */
+        .ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            border-color: transparent #9F00FF transparent #9F00FF;
+            /* Vibrant purple */
+            animation: rotate-expand 2s infinite linear;
+        }
+
+        .ring:nth-child(2) {
+            animation-delay: -1s;
+            border-color: #00ffff transparent #00ffff transparent;
+            /* Cyan ring */
+        }
+
+        .ring:nth-child(3) {
+            animation-delay: -0.5s;
+            animation-duration: 3s;
+            border-color: transparent #fff transparent #fff;
+            /* White ring */
+        }
+
+        /* Main text animation - NEW VERSION */
+        .text-reveal-new {
+            animation: text-surge-glitch 2s ease-in-out forwards;
+        }
+
+        /* Keyframe animation for the pulsing core */
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff, inset 0 0 10px #fff;
+            }
+
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff, 0 0 90px #00ffff, inset 0 0 15px #fff;
+            }
+        }
+
+        /* Keyframe animation for the rotating and expanding rings */
+        @keyframes rotate-expand {
+            0% {
+                transform: rotate(0deg) scale(0.5);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* NEW Keyframe animation for text surge glitch */
+        @keyframes text-surge-glitch {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) translateY(10px);
+                filter: blur(10px);
+                text-shadow: none;
+            }
+
+            5% {
+                opacity: 0.2;
+                transform: scale(0.9) translateY(-5px) skewX(10deg);
+                filter: blur(5px);
+                text-shadow: 0 0 10px #ff00ff;
+            }
+
+            10% {
+                opacity: 0.8;
+                transform: scale(1.1) translateY(0) skewX(-10deg);
+                filter: blur(2px);
+                text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+            }
+
+            12% {
+                opacity: 0.5;
+                transform: scale(1) translateY(0) skewX(0);
+                filter: blur(0);
+                text-shadow: 0 0 15px #fff, 0 0 30px #00ffff;
+            }
+
+            15% {
+                opacity: 1;
+                transform: scale(1.05);
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 60px #9F00FF;
+                filter: blur(0);
+            }
+
+            17% {
+                /* Quick glitch back */
+                opacity: 0.7;
+                transform: scale(1.02) translateX(3px) skewX(2deg);
+                text-shadow: 0 0 10px #ff00ff;
+            }
+
+            19% {
+                /* Quick glitch forward */
+                opacity: 0.7;
+                transform: scale(1.02) translateX(-3px) skewX(-2deg);
+                text-shadow: 0 0 10px #00ffff;
+            }
+
+            20%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 15px #00ffff,
+                    0 0 25px #00ffff,
+                    0 0 40px #00ffff,
+                    0 0 60px #9F00FF,
+                    0 0 90px #9F00FF;
+                filter: blur(0);
+            }
+        }
+
+        /* Styles for the final text container (no change needed here) */
+        .final-message-container {
+            border: 2px solid #9F00FF;
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 20px rgba(159, 0, 255, 0.5), inset 0 0 10px rgba(159, 0, 255, 0.3);
+            background: rgba(10, 10, 26, 0.3);
+            animation: pulse-border 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-border {
+
+            0%,
+            100% {
+                box-shadow: 0 0 20px rgba(159, 0, 255, 0.5), inset 0 0 10px rgba(159, 0, 255, 0.3);
+            }
+
+            50% {
+                box-shadow: 0 0 30px rgba(159, 0, 255, 0.8), inset 0 0 15px rgba(159, 0, 255, 0.5);
+            }
+        }
+
+        /* Glitch text - removed, replaced by new animation */
+        /* .glitch-text { animation: glitch 2.5s infinite steps(1); }
+        @keyframes glitch { ... } */
+
+        #scan-background {
+            position: fixed;
+            inset: 0;
+            background-color: #0a0a1a;
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-image:
+                linear-gradient(rgba(0, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: pan-grid 4s linear infinite;
+        }
+
+        #scan-background.active {
+            opacity: 1;
+        }
+
+        @keyframes pan-grid {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 40px 40px;
+            }
+        }
+
+        .scanner-prompt-warning {
+            animation: pulse-warning 1s infinite ease-in-out;
+            color: #ffcc00;
+        }
+
+        @keyframes pulse-warning {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .prompt-glow {
+            text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+            animation: slow-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes slow-glow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+            }
+
+            50% {
+                text-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+            }
+        }
+
+        /* --- Biometric Orb Scanner Styling --- */
+        .scanner-orb {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .scanner-orb:hover {
+            transform: scale(1.05);
+        }
+
+        .scanner-orb svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+            transform-origin: center;
+        }
+
+        .orb-ring-1 {
+            animation: rotate-orb 15s linear infinite;
+            transform-origin: center;
+        }
+
+        .orb-ring-2 {
+            animation: rotate-orb 20s linear infinite reverse;
+            transform-origin: center;
+        }
+
+        .orb-ring-3 {
+            animation: rotate-orb 10s linear infinite;
+            transform-origin: center;
+        }
+
+        .fingerprint-icon {
+            transition: filter 0.3s ease;
+        }
+
+        .scanner-orb:hover .fingerprint-icon {
+            filter: drop-shadow(0 0 10px #00ffff);
+        }
+
+        .scan-wave {
+            transform-origin: center;
+            stroke: #ffcc00;
+            opacity: 0;
+            fill: none;
+        }
+
+        .scanner-orb.is-scanning .scan-wave {
+            animation: scan-wave-anim 3s ease-out forwards;
+        }
+
+        /* --- Keyframes for Orb model --- */
+        @keyframes rotate-orb {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes scan-wave-anim {
+            0% {
+                r: 20;
+                stroke-width: 10;
+                opacity: 0.8;
+            }
+
+            100% {
+                r: 100;
+                stroke-width: 0;
+                opacity: 0;
+            }
+        }
+    </style>
+<link rel="stylesheet" href="index.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<meta name="robots" content="none,noarchive"/>
+</head>
+
+<body class="text-white overflow-hidden">
+
+    <div id="scan-background"></div>
+
+    <div id="loader" class="fixed inset-0 z-50 bg-[#0a0a1a] flex items-center justify-center">
+        <div class="futuristic-animation">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="core"></div>
+        </div>
+    </div>
+
+    <main id="content" class="h-screen w-screen flex flex-col items-center justify-center opacity-0 transition-opacity duration-1000 p-4 relative z-10">
+        <div class="text-center flex flex-col items-center">
+            <div id="final-message-container" class="final-message-container opacity-0">
+                <h1 id="final-text" class="text-6xl md:text-8xl font-bold tracking-widest"></h1>
+            </div>
+
+            <div id="scanner-area" class="flex flex-col items-center">
+                <p id="scanner-prompt" class="mb-8 text-2xl transition-colors duration-300 prompt-glow">Scan Your Future</p>
+                <!-- Biometric Orb Scanner Model -->
+                <div id="scanner-button" class="scanner-orb">
+                    <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Animated Rings -->
+                        <path class="orb-ring-1" d="M190 100C190 149.706 149.706 190 100 190C50.2944 190 10 149.706 10 100C10 50.2944 50.2944 10 100 10" stroke="#00ffff" stroke-width="2" stroke-linecap="round" stroke-dasharray="8 16" />
+                        <path class="orb-ring-2" d="M170 100C170 138.66 138.66 170 100 170C61.3401 170 30 138.66 30 100C30 61.3401 61.3401 30 100 30C138.66 30 170 61.3401 170 100Z" stroke="#9F00FF" stroke-width="3" stroke-opacity="0.7" />
+                        <path class="orb-ring-3" d="M150 100C150 127.614 127.614 150 100 150C72.3858 150 50 127.614 50 100C50 72.3858 72.3858 50 100 50" stroke="#00ffff" stroke-width="1" stroke-linecap="round" stroke-dasharray="1 4" />
+
+                        <!-- Simple Fingerprint Icon (centered) -->
+                        <g class="fingerprint-icon" stroke="#00ffff" stroke-width="2" stroke-linecap="round" fill="none">
+                            <path d="M136 100 A36 36 0 1 1 64 100" />
+                            <path d="M128 100 A28 28 0 1 1 72 100" />
+                            <path d="M120 100 A20 20 0 1 1 80 100" />
+                            <path d="M112 100 A12 12 0 1 1 88 100" />
+                            <path d="M100 96 a4 4 0 1 1 0 8 4 4 0 0 1 0-8z" />
+                        </g>
+
+                        <!-- Scan Wave -->
+                        <circle class="scan-wave" cx="100" cy="100" r="20" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            const content = document.getElementById('content');
+            const scannerButton = document.getElementById('scanner-button');
+            const scannerArea = document.getElementById('scanner-area');
+            const finalText = document.getElementById('final-text');
+            const finalMessageContainer = document.getElementById('final-message-container');
+            const scannerPrompt = document.getElementById('scanner-prompt');
+            const scanBackground = document.getElementById('scan-background');
+
+            let scanTimer = null;
+            let originalPromptText = '';
+            let scannerHum = null;
+            let isAudioInitialized = false;
+
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            if (isTouchDevice) {
+                originalPromptText = 'Place Your FINGER to Scan';
+            } else {
+                originalPromptText = 'Place Your CURSER to Scan';
+            }
+            scannerPrompt.textContent = originalPromptText;
+
+            const initAudio = async () => {
+                if (isAudioInitialized) return;
+                try {
+                    await Tone.start();
+                    isAudioInitialized = true;
+                    console.log("Audio context started by user interaction.");
+
+                    const beepSynth = new Tone.Synth().toDestination();
+                    beepSynth.triggerAttackRelease("G5", "16n", Tone.now());
+                    setTimeout(() => beepSynth.dispose(), 500);
+
+                    const ambientSynth = new Tone.Synth({
+                        oscillator: {
+                            type: "sine"
+                        },
+                        envelope: {
+                            attack: 0.005,
+                            decay: 0.1,
+                            sustain: 0,
+                            release: 0.1
+                        }
+                    }).toDestination();
+
+                    new Tone.Loop(time => {
+                        ambientSynth.triggerAttackRelease("C6", "8n", time);
+                    }, "2s").start(0);
+
+                    Tone.Transport.start();
+                } catch (e) {
+                    console.warn("Audio could not be started.", e);
+                }
+            };
+
+            const startScan = (e) => {
+                e.preventDefault();
+                initAudio();
+                if (scanTimer) clearTimeout(scanTimer);
+
+                scanBackground.classList.add('active');
+                scannerPrompt.textContent = 'ANALYZING... DO NOT REMOVE!';
+                scannerPrompt.classList.add('scanner-prompt-warning');
+                scannerButton.classList.add('is-scanning');
+
+                if (Tone.context.state === 'running' && !scannerHum) {
+                    scannerHum = new Tone.FatOscillator("Ab3", "sawtooth", 40).toDestination().start();
+                }
+
+                scanTimer = setTimeout(revealMessage, 3000);
+            };
+
+            const cancelScan = () => {
+                clearTimeout(scanTimer);
+                scanBackground.classList.remove('active');
+                scannerPrompt.textContent = originalPromptText;
+                scannerPrompt.classList.remove('scanner-prompt-warning');
+                scannerButton.classList.remove('is-scanning');
+
+                if (scannerHum) {
+                    scannerHum.stop();
+                    scannerHum.dispose();
+                    scannerHum = null;
+                }
+            };
+
+            const revealMessage = () => {
+                cancelScan();
+                if (isAudioInitialized) {
+                    Tone.Transport.stop();
+
+                    const finalBeep = new Tone.Synth({
+                        oscillator: {
+                            type: 'sine'
+                        },
+                        envelope: {
+                            attack: 0.01,
+                            decay: 0.2,
+                            sustain: 0.5,
+                            release: 1
+                        }
+                    }).toDestination();
+                    finalBeep.triggerAttackRelease("A4", "1s");
+                    setTimeout(() => finalBeep.dispose(), 1500);
+                }
+                scannerArea.style.display = 'none';
+                finalMessageContainer.style.opacity = '1';
+                finalText.textContent = 'life is scary';
+                // Apply the new animation class
+                finalText.classList.add('text-reveal-new');
+                // Remove the old animation class if it was there
+                finalText.classList.remove('text-reveal', 'glitch-text');
+            };
+
+            scannerButton.addEventListener('mousedown', startScan);
+            scannerButton.addEventListener('touchstart', startScan, {
+                passive: false
+            });
+            scannerButton.addEventListener('mouseup', cancelScan);
+            scannerButton.addEventListener('mouseleave', cancelScan);
+            scannerButton.addEventListener('touchend', cancelScan);
+
+            setTimeout(() => {
+                loader.style.transition = 'opacity 0.5s ease-out';
+                loader.style.opacity = '0';
+
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    content.style.opacity = '1';
+                }, 500);
+
+            }, 2000);
+        });
+    </script>
+
+<script src="index.js"></script>
+</body>
+
+</html>

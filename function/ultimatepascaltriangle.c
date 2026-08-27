@@ -1,0 +1,31 @@
+#include<stdio.h>
+////int factorial(int x){
+//    int n=1;
+//    for(int i=1;i<=x;i++)
+//      n=n*i;
+//      return n;
+//}
+//int combination(int n,int r){
+//      int ncr=factorial(n)/(factorial(r)*factorial(n-r));
+//      return ncr;
+//}
+int main(){  
+    int n;
+    printf("enter number : ");
+    scanf("%d",&n); 
+    
+    for(int i=0;i<=n;i++){  
+         int c=1;
+        for(int j=0;j<=i;j++){
+           
+            printf("%d ",c);
+            c=c*(i-j)/(j+1) ;
+             
+            
+        }
+               printf("\n");
+    }
+    
+      
+    return 0;
+}
